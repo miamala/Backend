@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Transaction API
+  version: 1.0.0
+paths:
+  /transactions:
+    get:
+      summary: List all transactions
+      responses:
+        '200':
+          description: A list of transactions
+    post:
+      summary: Create a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+  /transactions/{transactionId}:
+    parameters:
+      - name: transactionId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID of the transaction
+    get:
+      summary: Get a specific transaction by ID
+      responses:
+        '200':
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    put:
+      summary: Update a specific transaction by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Transaction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    delete:
+      summary: Delete a specific transaction by ID
+      responses:
+        '204':
+          description: Transaction deleted successfully
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - expense
+            - income
+        category:
+          type: string
+        amount:
+          type: number
+      required:
+        - type
+        - category
+        - amount
